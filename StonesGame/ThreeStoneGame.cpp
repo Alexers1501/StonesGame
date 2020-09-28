@@ -7,6 +7,8 @@
 
 #include <iostream>
 #include <random>
+#include <string>
+#include <sstream>
 
 std:: random_device rd; //Датчик случайных чисел
 std:: default_random_engine rnd {rd()};
@@ -22,6 +24,22 @@ void error(int p){
 		std:: cin >> p;
 	}
 }
+int read_int(const char * prompt)	{
+	int result;	//
+	std::string input;			//хранилище для вводной строки
+	std::cout << prompt;		//вывод запроса
+	std::getline(std::cin, input);//ввод строки
+	std::stringstream input_ss {input};//создание потока
+	input_ss >> result;				//чтерние
+	if (input_ss.fail()){//если не получилось
+		if (std::cin.eof()){
+			std::cerr<< "Ошибка ввода/вывода" << std::endl;
+			exit(1);
+		}
+		std::cerr<< "Неверный формат числа!" << std::endl;			//прописать цикл
+	}
+	return result;				//выводим результат
+}
 int Level1(int choice){
 	while (n > 3){
 		if (choice == 0){
@@ -33,9 +51,10 @@ int Level1(int choice){
 		}
 		else{
 			int p;
-			std:: cout << "Игрок, введите число от 1 до 3: ";
-			std:: cin >> p;
-			error(p);
+			p = read_int("Игрок, введите число от 1 до 3: ");
+//			std:: cout << "Игрок, введите число от 1 до 3: ";
+//			std:: cin >> p;
+//			error(p);
 			n -= p;
 			std:: cout << "Осталось " << n << " камушков =(^~^)=" << std:: endl;
 			std:: cout << std:: endl;
