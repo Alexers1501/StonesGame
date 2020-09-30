@@ -9,9 +9,14 @@
 #include <random>
 #include <string>
 #include <sstream>
+#include <chrono>
 
+using clk = std::chrono::system_clock;
 std:: random_device rd; //Датчик случайных чисел
-std:: default_random_engine rnd {rd()};
+//std:: default_random_engine rnd {rd()};
+std::minstd_rand rnd {
+	unsigned(clk::now().time_since_epoch().count())
+};
 std:: uniform_int_distribution <> distN {15, 25};
 std:: uniform_int_distribution <> distStones {1, 3};
 
