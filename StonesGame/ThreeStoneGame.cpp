@@ -22,13 +22,7 @@ std:: uniform_int_distribution <> distStones {1, 3};
 
 int n = distN(rnd);
 
-void error(int p){
-	while(p>3 or p<1){
-		std:: cout << "Вы ввели неверное число" << std:: endl;
-		std:: cout << "Игрок, введите число от 1 до 3: ";
-		std:: cin >> p;
-	}
-}
+
 int read_int(const char * prompt)	{
 	int result;	//
 	std::string input;			//хранилище для вводной строки
@@ -37,11 +31,20 @@ int read_int(const char * prompt)	{
 	std::stringstream input_ss {input};//создание потока
 	input_ss >> result;				//чтерние
 	if (input_ss.fail()){//если не получилось
-		if (std::cin.eof()){
+		if (std::cin.eof()){//возвращает истину если в файле все прочитано
 			std::cerr<< "Ошибка ввода/вывода" << std::endl;
 			exit(1);
 		}
-		std::cerr<< "Неверный формат числа!" << std::endl;			//прописать цикл
+		else{
+			std::cerr<< "Неверный формат числа!" << std::endl;//прописать цикл
+			std::cerr.flush();//сброс буфера, то что есть в буфере он выведет прямо сейчас
+			return read_int("Игрок, введите число от 1 до 3: ");
+
+		}
+	}
+	else if (!(input_ss.eof())){//если строка не до конца проитана
+		std:: cout << "А что это такое???! (О.О)" << std:: endl;
+		return read_int("Игрок, введите число от 1 до 3: ");
 	}
 	return result;				//выводим результат
 }
@@ -57,13 +60,49 @@ int Level1(int choice){
 		else{
 			int p;
 			p = read_int("Игрок, введите число от 1 до 3: ");
-//			std:: cout << "Игрок, введите число от 1 до 3: ";
-//			std:: cin >> p;
-//			error(p);
+			while(p>3 or p<1){
+				std:: cout << "Вы ввели неверное число" << std:: endl;
+				p = read_int("Игрок, введите число от 1 до 3: ");
+
+			};
 			n -= p;
 			std:: cout << "Осталось " << n << " камушков =(^~^)=" << std:: endl;
 			std:: cout << std:: endl;
 			choice = 0;
+		}
+	}
+	return choice;
+}
+int Level2(int choice){// когда меньше 10 он начинает думать
+	while (n > 10){
+		if (choice == 0){
+			std:: cout << "Ход компьютера" << std:: endl;
+			n -= distStones(rnd);
+			std:: cout << "Осталось " << n << " камушков =(^o^)=" << std:: endl;
+			std:: cout << std:: endl;
+			choice = 1;
+		}
+		else{
+			int p;
+			p = read_int("Игрок, введите число от 1 до 3: ");
+			while(p>3 or p<1){
+				std:: cout << "Вы ввели неверное число" << std:: endl;
+				p = read_int("Игрок, введите число от 1 до 3: ");
+
+			};
+			n -= p;
+			std:: cout << "Осталось " << n << " камушков =(^~^)=" << std:: endl;
+			std:: cout << std:: endl;
+			choice = 0;
+		}
+	}
+
+	while(n > 3){
+		if (choice ==0){
+
+		}
+		else{
+
 		}
 	}
 	return choice;
