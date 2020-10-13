@@ -11,12 +11,12 @@
 #include <sstream>
 #include <chrono>
 
-using clk = std::chrono::system_clock;
+//using clk = std::chrono::system_clock;
 std:: random_device rd; //Датчик случайных чисел
-//std:: default_random_engine rnd {rd()};
-std::minstd_rand rnd {
-	unsigned(clk::now().time_since_epoch().count())
-};
+std:: default_random_engine rnd {rd()};
+//std::minstd_rand rnd {
+//	unsigned(clk::now().time_since_epoch().count())
+//};
 std:: uniform_int_distribution <> distN {15, 25};
 std:: uniform_int_distribution <> distStones {1, 3};
 
@@ -47,6 +47,7 @@ int read_int(const char * prompt)	{
 	}
 	return result;				//выводим результат
 }
+// когда он сводит к 4n+1, у следующего игрока нет шансов
 int Level1(int choice){
 	while (n > 1){
 		if (choice == 0){
@@ -110,12 +111,12 @@ int Level2(int choice){// когда меньше 10 он начинает думать
 				std:: cout << std:: endl;
 				n -= 1;
 			}
-			if (n == 8 or n == 4 ){
+			else if (n == 8 or n == 4 ){
 				n -= 3;
 				std:: cout << "Компьютер взял 3 камушка (@ - @)" << std:: endl;
 				std:: cout << std:: endl;
 			}
-			if (n == 7 or n == 3){
+			else if (n == 7 or n == 3){
 				n -= 2;
 				std:: cout << "Компьютер взял 3 камушка (@ - @)" << std:: endl;
 				std:: cout << std:: endl;
@@ -143,20 +144,23 @@ int Level3(int choice){
 	while(n > 3){
 		if (choice == 0){
 			std:: cout << "Ход компьютера" << std:: endl;
-			if (n % 5 == 4 or n % 5 == 0 or n % 5 == 1){
+			if (n % 4 == 2){
 				std:: cout << "Компьютер взял 1 камушек (@ - @)" << std:: endl;
 				std:: cout << std:: endl;
 				n -= 1;
 			}
-			else if (n % 5 == 3){
+			else if (n % 4 == 3){
 				std:: cout << "Компьютер взял 3 камушка (@ - @)" << std:: endl;
 				std:: cout << std:: endl;
-				n -= 3;
-			}
-			else if (n % 5 == 2){
-				std:: cout << "Компьютер взял 2 камушка (@ - @)" << std:: endl;
-				std:: cout << std:: endl;
 				n -= 2;
+			}
+			else if (n % 4 == 1){
+				int k = distStones(rnd);
+				n -= k;
+				std:: cout << "Компьютер взял "<< k <<" камушек (@ - @)" << std:: endl;
+				std:: cout << std:: endl;
+				std:: cout << "Осталось " << n << " камушков =(^o^)=" << std:: endl;
+				std:: cout << std:: endl;
 			}
 			std:: cout << "Осталось " << n << " камушков =(^o^)=" << std:: endl;
 			std:: cout << std:: endl;
@@ -185,9 +189,8 @@ int main(){
 	std:: cout << "____МЕНЮ____" << std:: endl;
 	std:: cout << "1. Правила игры" << std:: endl;
 	std:: cout << "2. Выбор уровня" << std:: endl;
-	std:: cout << "Выберете нужный пункт";
 	int r;
-	std::cin >> r;
+	r = read_int("Выберете нужный пункт");
 	std:: cout << std:: endl;
 	switch(r){
 		case 1:{
@@ -198,9 +201,8 @@ int main(){
 			std:: cout << "1 уровень" << std:: endl;
 			std:: cout << "2 уровень" << std:: endl;
 			std:: cout << "3 уровень" << std:: endl;
-			std:: cout << "Выберете нужный уровень";
 			int level;
-			std::cin >> level;
+			level = read_int("Выберете нужный уровень");
 			std:: cout << std:: endl;
 
 			std:: uniform_int_distribution <> distChoice {0, 1};
