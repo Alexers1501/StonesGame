@@ -3,6 +3,7 @@
  *
  *  Created on: 28 сент. 2020 г.
  *      Author: Alexers
+ *      https://github.com/Alexers1501/StonesGame.git
  */
 
 #include <iostream>
@@ -103,45 +104,36 @@ int Level2(int choice){// когда меньше 10 он начинает думать
 		}
 	}
 
-	while(n > 1){
+	while(n >= 3){
 		if (choice == 0){
 			std:: cout << "Ход компьютера" << std:: endl;
-			if (n == 10 or n == 9 or n == 6 or n == 5 or n == 2){
-				std:: cout << "Компьютер взял 1 камушек (@ - @)" << std:: endl;
-				std:: cout << std:: endl;
-				n -= 1;
-			}
-			else if (n == 8 or n == 4 ){
-				n -= 3;
-				std:: cout << "Компьютер взял 3 камушка (@ - @)" << std:: endl;
-				std:: cout << std:: endl;
-			}
-			else if (n == 7 or n == 3){
-				n -= 2;
-				std:: cout << "Компьютер взял 3 камушка (@ - @)" << std:: endl;
-				std:: cout << std:: endl;
-			}
-			std:: cout << "Осталось " << n << " камушков =(^o^)=" << std:: endl;
-			std:: cout << std:: endl;
-			choice = 1;
-		}
-		else{
-			int p;
-			p = read_int("Игрок, введите число от 1 до 3: ");
-			while(p>3 or p<1){
-				std:: cout << "Вы ввели неверное число" << std:: endl;
-				p = read_int("Игрок, введите число от 1 до 3: ");
-			};
-			n -= p;
-			std:: cout << "Осталось " << n << " камушков =(^~^)=" << std:: endl;
-			std:: cout << std:: endl;
-			choice = 0;
+					if (n % 4 == 2){
+						std:: cout << "Компьютер взял 1 камушек (@ - @)" << std:: endl;
+						std:: cout << std:: endl;
+						n -= 1;
+					}
+					else if (n % 4 == 3){
+						std:: cout << "Компьютер взял 3 камушка (@ - @)" << std:: endl;
+						std:: cout << std:: endl;
+						n -= 2;
+					}
+					else if (n % 4 == 1){
+						int k = distStones(rnd);
+						n -= k;
+						std:: cout << "Компьютер взял "<< k <<" камушек (@ - @)" << std:: endl;
+						std:: cout << std:: endl;
+						std:: cout << "Осталось " << n << " камушков =(^o^)=" << std:: endl;
+						std:: cout << std:: endl;
+					}
+					std:: cout << "Осталось " << n << " камушков =(^o^)=" << std:: endl;
+					std:: cout << std:: endl;
+					choice = 1;
 		}
 	}
 	return choice;
 }
 int Level3(int choice){
-	while(n > 3){
+	while(n >= 3){
 		if (choice == 0){
 			std:: cout << "Ход компьютера" << std:: endl;
 			if (n % 4 == 2){
@@ -150,9 +142,14 @@ int Level3(int choice){
 				n -= 1;
 			}
 			else if (n % 4 == 3){
-				std:: cout << "Компьютер взял 3 камушка (@ - @)" << std:: endl;
+				std:: cout << "Компьютер взял 2 камушка (@ - @)" << std:: endl;
 				std:: cout << std:: endl;
 				n -= 2;
+			}
+			else if (n % 4 == 0){
+				std:: cout << "Компьютер взял 3 камушка (@ - @)" << std:: endl;
+				std:: cout << std:: endl;
+				n -= 3;
 			}
 			else if (n % 4 == 1){
 				int k = distStones(rnd);
